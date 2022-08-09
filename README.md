@@ -1,1 +1,2 @@
-# Army_MathHammer
+## Description
+The premise of this application is to conduct probability and statistics on a user's army list in comparison to an enemy's list. Moreover, the analytics is operation on die rolls and determining the outcomes and probabilities thereof. For the incorporation of special rules such as re-rolls on a dice roll of 1 would automate the calculation for the Markov Chain, as these can be cumbersome. As there are many facets to these calculations, the application will start with calculations on a character basis and the facilitation of the creation of data entries into the database.

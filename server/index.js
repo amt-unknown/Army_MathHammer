@@ -1,22 +1,25 @@
-// config
-const express = require("express");
+// Modules and Globals
+require('dotenv').config()
+const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
 const app = express();
-const cors = require("cors");
-require("dotenv").config({path: "./config.env"});
-const port = process.env.PORT || 5000;
-require("path");
 
-app.use(cors());
-app.use(express.json());
-// app.use(require("./routes/armylists"));
+// Express Settings
+app.use(cors())
+app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
-// get driver connection
-const dbo = require("./db/conn");
+// Controllers & Routes
 
-app.listen(port, () => {
-    // perform a database connection when server starts
-    dbo.connectToServer(function (err) {
-        if (err) console.log(err);
-    });
-    console.log(`Server is running on port: ${port}`)
+app.use(express.urlencoded({ extended: true }))
+
+
+// NEEDS CHANGE
+app.use('/unitdata', require('./controllers/unitdata'))
+
+// Listen for Connections
+app.listen(process.env.PORT, () => {
+    console.log(`Listening on ${process.env.PORT}`)
 })
