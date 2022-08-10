@@ -12,6 +12,7 @@ This table references the WeaponData table in a many-to-one relationship, e.g., 
 | Column Name | Datatype | 
 | ----------- | --------- | 
 | name | String | 
+| army | String (one-to-many)*
 | weapons | Array(Strings) (many-to-one, ref. WeaponData) | 
 | ws (Weapson Skill)| Integer | 
 | bs (Ballistic Skill) | Integer | 
@@ -19,6 +20,8 @@ This table references the WeaponData table in a many-to-one relationship, e.g., 
 | t (Toughness) | Integer | 
 | a (Attacks) | Integer | 
 | w (Wounds) | Integer | 
+
+*To be implemented later. 
 
 ### WeaponData
 This table is referened by UnitData. 

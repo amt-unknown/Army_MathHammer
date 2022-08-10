@@ -11,6 +11,30 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      army: {
+        type: Sequelize.STRING
+      },
+      weapons: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
+      },
+      weapon_skill: {
+        type: Sequelize.INTEGER
+      },
+      ballistic_skill: {
+        type: Sequelize.INTEGER
+      },
+      strength: {
+        type: Sequelize.INTEGER
+      },
+      toughness: {
+        type: Sequelize.INTEGER
+      },
+      attacks: {
+        type: Sequelize.INTEGER
+      },
+      wounds: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

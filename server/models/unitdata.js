@@ -14,9 +14,23 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   UnitData.init({
-    name: DataTypes.STRING
+    unitId: {
+      type: DataTypes.SMALLINT,
+      primaryKey: true, 
+      autoIncrement: true
+    },
+    name: DataTypes.STRING,
+    army: DataTypes.STRING,
+    weapons: DataTypes.ARRAY(DataTypes.STRING),
+    weapon_skill: DataTypes.SMALLINT,
+    ballistic_skill: DataTypes.SMALLINT,
+    strength: DataTypes.SMALLINT,
+    toughness: DataTypes.SMALLINT,
+    attacks: DataTypes.SMALLINT,
+    wounds: DataTypes.SMALLINT,
   }, {
     sequelize,
+    underscored: true, 
     modelName: 'UnitData',
   });
   return UnitData;
