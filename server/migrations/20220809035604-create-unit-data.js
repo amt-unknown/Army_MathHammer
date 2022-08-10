@@ -35,6 +35,9 @@ module.exports = {
       wounds: {
         type: Sequelize.INTEGER
       },
+      save: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

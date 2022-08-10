@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   UnitData.init({
-    unitId: {
+    id: {
       type: DataTypes.SMALLINT,
       primaryKey: true, 
       autoIncrement: true
@@ -28,9 +28,9 @@ module.exports = (sequelize, DataTypes) => {
     toughness: DataTypes.SMALLINT,
     attacks: DataTypes.SMALLINT,
     wounds: DataTypes.SMALLINT,
+    save: DataTypes.SMALLINT
   }, {
     sequelize,
-    underscored: true, 
     modelName: 'UnitData',
   });
   return UnitData;
