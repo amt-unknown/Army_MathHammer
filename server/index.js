@@ -16,8 +16,9 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// NEEDS CHANGE
+// Add controllers
 app.use('/unitdata', require('./controllers/unitdata'));
+app.use('/weapondata', require('./controllers/weapondata'))
 
 // Listen for Connections
 app.listen(process.env.PORT, () => {

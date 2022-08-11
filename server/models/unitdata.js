@@ -9,19 +9,23 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      // define association here
+    static associate({ WeaponData, UnitWeapons }) {
+      UnitData.belongsToMany(WeaponData, {
+        foreignKey: "unit_id",
+        as: "weapons",
+        through: UnitWeapons
+      })
     }
   };
   UnitData.init({
-    id: {
+    unit_id: {
       type: DataTypes.SMALLINT,
       primaryKey: true, 
       autoIncrement: true
     },
     name: DataTypes.STRING,
     army: DataTypes.STRING,
-    weapons: DataTypes.ARRAY(DataTypes.STRING),
+    // weapons: DataTypes.ARRAY(DataTypes.STRING),
     weapon_skill: DataTypes.SMALLINT,
     ballistic_skill: DataTypes.SMALLINT,
     strength: DataTypes.SMALLINT,

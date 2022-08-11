@@ -1,8 +1,8 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('UnitData', {
-      unit_id: {
+    await queryInterface.createTable('WeaponData', {
+      weapon_id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -11,32 +11,23 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      army: {
+      range_type: {
         type: Sequelize.STRING
       },
-      // weapons: {
-      //   type: Sequelize.ARRAY(Sequelize.STRING)
-      // },
-      weapon_skill: {
-        type: Sequelize.INTEGER
-      },
-      ballistic_skill: {
-        type: Sequelize.INTEGER
-      },
       strength: {
-        type: Sequelize.INTEGER
-      },
-      toughness: {
         type: Sequelize.INTEGER
       },
       attacks: {
         type: Sequelize.INTEGER
       },
-      wounds: {
+      damage: {
+        type: Sequelize.STRING
+      },
+      armor_penetration: {
         type: Sequelize.INTEGER
       },
-      save: {
-        type: Sequelize.INTEGER
+      special_rules: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
       },
       createdAt: {
         allowNull: false,
@@ -49,6 +40,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('UnitData');
+    await queryInterface.dropTable('WeaponData');
   }
 };

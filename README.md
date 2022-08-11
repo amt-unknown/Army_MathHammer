@@ -13,13 +13,14 @@ This table references the WeaponData table in a many-to-one relationship, e.g., 
 | ----------- | --------- | 
 | name | String | 
 | army | String (one-to-many)*
-| weapons | Array(Strings) (many-to-one, ref. WeaponData) | 
-| ws (Weapson Skill)| Integer | 
-| bs (Ballistic Skill) | Integer | 
-| s (Strength) | Integer |
-| t (Toughness) | Integer | 
-| a (Attacks) | Integer | 
-| w (Wounds) | Integer | 
+| weapons | Array(Strings) (many-to-many, ref. WeaponData) | 
+| weapon_skill| Integer | 
+| ballistic_skill | Integer | 
+| strength | Integer |
+| toughness | Integer | 
+| attacks | Integer | 
+| wounds | Integer | 
+| save | Integer | 
 
 *To be implemented later. 
 
@@ -28,9 +29,9 @@ This table is referened by UnitData.
 | Column Name | Datatype | 
 | ----------- | --------- | 
 | name | String | 
-| rangetype | String (enum: Melee, Ranged)|
-| s (Strength) | Integer | 
-| a (Attacks) | Integer | 
-| d (damage) | Integer | 
-| ap (Armor Penetration) | Integer | 
-| specialrules | Array(Strings) (enum: (These shall be implemented and added to options))
+| range_type | String (enum: Melee, Ranged)|
+| strength | Integer | 
+| attacks | Integer | 
+| damage | Integer | 
+| armor_penetration | Integer | 
+| special_rules | Array(Strings) (enum: (These shall be implemented and added to options))
