@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const db = require("../models")
 
-const { UnitData } = db
+const { UnitData, UnitWeapons, WeaponData } = db
 
 
 // GET route for entire unitdata table
@@ -14,7 +14,13 @@ router.get('/', async (req, res) => {
 router.get('/:unitName', async (req, res) => {
     const unitName = req.params.unitName;
     const unitData = await UnitData.findOne({
-            where: { name: unitName}
+            where: { name: unitName},
+            include: [
+                {
+                    model: WeaponData,
+                    as: 'weapons'
+                }
+            ]
         });
         if (!unitData) {
             res.status(404).json({message: "Could not find an entry with that id: ${unitDataId"});
@@ -25,8 +31,8 @@ router.get('/:unitName', async (req, res) => {
 
 //POST route for new entries
 router.post('/', async (req, res) => {
-    let unitName = req.body.name
-    const unitData = await UnitData.findOne({
+    const unitName = req.body.name
+    let unitData = await UnitData.findOne({
         where: { name: unitName}
     })
 
@@ -34,6 +40,25 @@ router.post('/', async (req, res) => {
         res.status(404).json({message: "Sorry, a unit with name already exists"})
     } else {
         unitData = await UnitData.create(req.body);
+        
+        //Add weapon associations if necessary
+        const unitWeapons = req.body.weapons
+        if (unitWeapons) {
+            unitWeapons.forEach(async weapon => {
+                let weaponData = await WeaponData.findOne({
+                    where: {name: weapon}
+                })
+                if (weaponData) { 
+                    const unitWeaponData = await UnitWeapons.create({
+                            unit_id: unitData.unit_id,
+                            weapon_id: weaponData.weapon_id
+                    })
+                } else {
+                    console.log("DNE")
+                }
+            })
+        }
+        
         res.json(unitData);
     }
 

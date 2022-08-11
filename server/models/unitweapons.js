@@ -14,10 +14,23 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   UnitWeapons.init({
-    name: DataTypes.STRING
+    unit_weapons_id: {
+      type: DataTypes.SMALLINT,
+      primaryKey: true, 
+      autoIncrement: true
+    },
+    unit_id: {
+      type: DataTypes.SMALLINT, 
+      allowNull: false
+    },
+    weapon_id: {
+      type: DataTypes.SMALLINT, 
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'UnitWeapons',
+    timestamps: false
   });
   return UnitWeapons;
 };

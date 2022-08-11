@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ UnitData, UnitWeapons}) {
       WeaponData.belongsToMany(UnitData, {
-        foreignKey: "unit_id",
-        as: "weapons", 
+        foreignKey: "weapon_id",
+        as: "units", 
         through: UnitWeapons
       })
     }

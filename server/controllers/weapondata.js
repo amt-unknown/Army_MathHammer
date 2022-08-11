@@ -25,8 +25,8 @@ router.get('/:weaponName', async (req, res) => {
 
 //POST route for new entries
 router.post('/', async (req, res) => {
-    let weaponName = req.body.name
-    const weaponData = await WeaponData.findOne({
+    const weaponName = req.body.name
+    let weaponData = await WeaponData.findOne({
         where: { name: weaponName}
     })
 
