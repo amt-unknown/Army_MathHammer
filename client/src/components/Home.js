@@ -1,7 +1,9 @@
-import UnitSelection from "./UnitSelection"
 import {Button, Container} from 'react-bootstrap'
 import {useNavigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
+
+import UnitSelection from "./units/UnitSelection"
+import Calculation from "./units/Calculation"
 
 export default function Home() {
     const navigate = useNavigate()
@@ -13,7 +15,6 @@ export default function Home() {
         defender: ""
     })
 
-    console.log(pageDisplayed)
     useEffect(() => {
         const fetchData = async () => {
             const unitRepsonse = await fetch(`http://localhost:5000/unitdata`)
@@ -47,7 +48,7 @@ export default function Home() {
                 )
                 break;
             case "calculate":
-                return <div>Calculate</div>
+                return <Calculation calcSelection={calcSelection}/>
                 break;
             }
     }
