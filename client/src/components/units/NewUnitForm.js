@@ -1,5 +1,5 @@
 import { useState } from "react"
-import {Form, Button, Row, Col} from 'react-bootstrap'
+import {Form, Button, Row, Col, Container} from 'react-bootstrap'
 import {useNavigate} from 'react-router-dom'
 
 export default function NewUnitForm () {
@@ -32,46 +32,53 @@ export default function NewUnitForm () {
     }
 
     return(
-        <Form onSubmit={handleSubmit}>
-            <Row className="mb-3">
-                <Form.Group as={Col} controlId="formGridNames">
-                    <Form.Label>Unit</Form.Label>
-                    <Form.Control type="text" placeholder="Enter unit name" onChange={e => setUnit({...unit, name: e.target.value})}/>
-                </Form.Group>
-                <Form.Group as={Col}>
-                    <Form.Label>Army</Form.Label>
-                    <Form.Control type="text" placeholder="Enter army name" onChange={e => setUnit({...unit, army: e.target.value})}/>
-                </Form.Group>
-            </Row>
-            <Row className="mb-3">
-                <Form.Group as={Col}>
-                    <Form.Label>WS</Form.Label>
-                    <Form.Control type="number" onChange={e => setUnit({...unit, weapon_skill: e.target.value})}/>
-                </Form.Group>
-                <Form.Group as={Col}>
-                    <Form.Label>BS</Form.Label>
-                    <Form.Control type="number" onChange={e => setUnit({...unit, ballistic_skill: e.target.value})}/>
-                </Form.Group><Form.Group as={Col}>
-                    <Form.Label>S</Form.Label>
-                    <Form.Control type="number" onChange={e => setUnit({...unit, strength: e.target.value})}/>
-                </Form.Group><Form.Group as={Col}>
-                    <Form.Label>T</Form.Label>
-                    <Form.Control type="number" onChange={e => setUnit({...unit, toughness: e.target.value})}/>
-                </Form.Group><Form.Group as={Col}>
-                    <Form.Label>A</Form.Label>
-                    <Form.Control type="number" onChange={e => setUnit({...unit, attacks: e.target.value})}/>
-                </Form.Group><Form.Group as={Col}>
-                    <Form.Label>W</Form.Label>
-                    <Form.Control type="number" onChange={e => setUnit({...unit, wounds: e.target.value})}/>
-                </Form.Group><Form.Group as={Col}>
-                    <Form.Label>Sv</Form.Label>
-                    <Form.Control type="number" onChange={e => setUnit({...unit, save: e.target.value})}/>
-                </Form.Group>
-            </Row>
-
-            <Button variant="dark" type="submit">
-                Submit
-            </Button>
-        </Form>
+        <Container>
+            <Form onSubmit={handleSubmit}>
+                <Row sm={1}>
+                    <Form.Group as={Col} controlId="formGridNames">
+                        <Form.Label>Unit</Form.Label>
+                        <Form.Control type="text" placeholder="Enter unit name" onChange={e => setUnit({...unit, name: e.target.value})}/>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Label>Army</Form.Label>
+                        <Form.Control type="text" placeholder="Enter army name" onChange={e => setUnit({...unit, army: e.target.value})}/>
+                    </Form.Group>
+                </Row>
+                <Row xs={4} sm={7}>
+                    <Form.Group as={Col}>
+                        <Form.Label>WS</Form.Label>
+                        <Form.Control type="number" onChange={e => setUnit({...unit, weapon_skill: e.target.value})}/>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Label>BS</Form.Label>
+                        <Form.Control type="number" onChange={e => setUnit({...unit, ballistic_skill: e.target.value})}/>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Label>S</Form.Label>
+                        <Form.Control type="number" onChange={e => setUnit({...unit, strength: e.target.value})}/>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Label>T</Form.Label>
+                        <Form.Control type="number" onChange={e => setUnit({...unit, toughness: e.target.value})}/>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Label>A</Form.Label>
+                        <Form.Control type="number" onChange={e => setUnit({...unit, attacks: e.target.value})}/>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Label>W</Form.Label>
+                        <Form.Control type="number" onChange={e => setUnit({...unit, wounds: e.target.value})}/>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Label>Sv</Form.Label>
+                        <Form.Control type="number" onChange={e => setUnit({...unit, save: e.target.value})}/>
+                    </Form.Group>
+                </Row>
+                <br />
+                <Button variant="dark" type="submit">
+                    Submit
+                </Button>
+            </Form>
+        </Container>
     )
 }

@@ -1,10 +1,10 @@
-import {useState } from 'react';
 import { Form, Button } from 'react-bootstrap'
+import { useNavigate } from 'react-router'
 
 
 export default function UnitSelection (props) {    
 
-    console.log(props)
+    const navigate = useNavigate()
 
     function renderOptions(option=0){
         return props.units.map(unit => {
@@ -14,10 +14,14 @@ export default function UnitSelection (props) {
         })
     } 
 
-    // let renderUnitData
+    function onSubmit() {
+        if (props.calcSelection.attaker != "" && props.calcSelection.defender != "") {
+            props.setPageDisplayed("calculate")
+        }
+    }
 
     return (
-        <Form>
+        <Form >
             <Form.Label>To begin, please select the attacking unit:</Form.Label>
             <Form.Select aria-label="Unit select" onChange={e => props.setCalcSelection({...props.calcSelection, attacker: e.target.value})}>
                 <option key="attackerSelect">Select a unit...</option>
@@ -29,7 +33,7 @@ export default function UnitSelection (props) {
                 {renderOptions("defender")}
             </Form.Select>
             <br />
-            <Button variant="dark" type="submit" >
+            <Button variant="dark" onClick={() => {onSubmit()}} >
                 Calculate
             </Button>
         </Form>
