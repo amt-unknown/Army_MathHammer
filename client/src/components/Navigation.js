@@ -1,10 +1,10 @@
-import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import { Container, Nav, Navbar } from 'react-bootstrap'
 
 export default function Navigation () {
     return(
     <Navbar bg="dark" expand="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="#home">MathHammer</Navbar.Brand>
+        <Navbar.Brand href="#home">Army MathHammer</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
