@@ -1,9 +1,16 @@
 import {useEffect, useState } from 'react';
-import { Form } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
 
 
 export default function UnitSelection () {
     const [units, setUnits] = useState([])
+
+    const [calcSelection, setCalcSelection] = useState({
+        attacker: "", 
+        defender: ""
+    })
+
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -18,7 +25,7 @@ export default function UnitSelection () {
 
     let renderOptions = units.map(unit => {
         return (
-            <option value={unit.id}>{unit.name}</option>
+            <option value={unit.id} key={unit.id}>{unit.name}</option>
         )
     })
 
@@ -27,15 +34,22 @@ export default function UnitSelection () {
     return (
         <Form>
             <Form.Label>To begin, please select the attacking unit:</Form.Label>
-            <Form.Select aria-label="Unit select">
-                <option>Select a unit...</option>
+            <Form.Select aria-label="Unit select" onChange={e => {
+                setCalcSelection({...calcSelection, attacker: e.target.value})
+                console.log(e.target.value)
+            }}>
+                <option key="-1">Select a unit...</option>
                 {renderOptions}
             </Form.Select>
             <Form.Label>Next, please select the defending unit:</Form.Label>
-            <Form.Select aria-label="Unit select">
+            <Form.Select aria-label="Unit select" onChange={e => setCalcSelection({...calcSelection, defender: e.target.value})}>
                 <option>Select a unit...</option>
                 {renderOptions}
             </Form.Select>
+            <br />
+            <Button variant="dark" type="submit" onClick={console.log(calcSelection)}>
+                Calculate
+            </Button>
         </Form>
     )
 }

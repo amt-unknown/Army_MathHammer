@@ -1,6 +1,10 @@
 import { Container, Nav, Navbar } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 
 export default function Navigation () {
+
+    const navigate = useNavigate()
+
     return(
     <Navbar bg="dark" expand="dark" variant="dark">
       <Container>
@@ -8,8 +12,8 @@ export default function Navigation () {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
+            <Nav.Link href="" onClick={() => navigate('/')}>Home</Nav.Link>
+            <Nav.Link href="/createUnit" onClick={() => navigate('/createUnit')}>Create Unit</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

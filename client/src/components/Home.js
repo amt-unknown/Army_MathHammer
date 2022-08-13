@@ -1,6 +1,10 @@
 import UnitSelection from "./UnitSelection"
+import {Button} from 'react-bootstrap'
+import {useNavigate} from 'react-router-dom'
 
 export default function Home() {
+    const navigate = useNavigate()
+
     return (
         <main>
             <h3>Overview:</h3>
@@ -14,7 +18,8 @@ export default function Home() {
             <h3>Calculator:</h3>
             <UnitSelection />
 
-            <p>Don't see the unit your are looking for? Click here to add your desired unit.</p>
+            <p>Don't see the unit your are looking for? Click below to add your desired unit.</p>
+            <Button variant="dark" onClick={navigate('./createUnit')}>Create a Unit</Button>
         </main>
     )
 }
