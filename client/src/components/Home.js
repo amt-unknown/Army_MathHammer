@@ -1,9 +1,36 @@
 import UnitSelection from "./UnitSelection"
 import {Button} from 'react-bootstrap'
 import {useNavigate} from 'react-router-dom'
+import {useState, useEffect} from 'react'
 
 export default function Home() {
     const navigate = useNavigate()
+
+    const [units, setUnits] = useState([])
+    const [pageDisplayed, setPageDisplayed] = useState("home")
+    const [calcSelection, setCalcSelection] = useState({
+        attacker: "", 
+        defender: ""
+    })
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const unitRepsonse = await fetch(`http://localhost:5000/unitdata`)
+
+            const unitResData = await unitRepsonse.json()
+            setUnits(unitResData)
+        }
+        fetchData()
+
+    },[])
+
+
+    const renderPageDisplay = () => {
+        switch (pageDisplayed) {
+            case "home": 
+                return <UnitSelection units={units} calcSelection={calcSelection} setCalcSelection={setCalcSelection}/>
+        }
+    }
 
     return (
         <main>
@@ -15,11 +42,12 @@ export default function Home() {
                   and "Re-roll a result of 1." The aim is to provide further 
                   insight to these special cases.  </p>
 
-            <h3>Calculator:</h3>
-            <UnitSelection />
+            
+
+            {renderPageDisplay()}
 
             <p>Don't see the unit your are looking for? Click below to add your desired unit.</p>
-            <Button variant="dark" onClick={navigate('./createUnit')}>Create a Unit</Button>
+            <Button variant="dark" onClick={e => navigate('/createUnit')}>Create a Unit</Button>
         </main>
     )
 }

@@ -1,53 +1,35 @@
-import {useEffect, useState } from 'react';
+import {useState } from 'react';
 import { Form, Button } from 'react-bootstrap'
 
 
-export default function UnitSelection () {
-    const [units, setUnits] = useState([])
+export default function UnitSelection (props) {    
 
-    const [calcSelection, setCalcSelection] = useState({
-        attacker: "", 
-        defender: ""
-    })
+    console.log(props)
 
+    function renderOptions(option=0){
+        return props.units.map(unit => {
+            return (
+                <option value={unit.id} key={option+unit.unit_id}>{unit.name}</option>
+            )
+        })
+    } 
 
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const unitRepsonse = await fetch(`http://localhost:5000/unitdata`)
-
-            const unitResData = await unitRepsonse.json()
-            setUnits(unitResData)
-        }
-        fetchData()
-
-    },[])
-
-    let renderOptions = units.map(unit => {
-        return (
-            <option value={unit.id} key={unit.id}>{unit.name}</option>
-        )
-    })
-
-    let renderUnitData
+    // let renderUnitData
 
     return (
         <Form>
             <Form.Label>To begin, please select the attacking unit:</Form.Label>
-            <Form.Select aria-label="Unit select" onChange={e => {
-                setCalcSelection({...calcSelection, attacker: e.target.value})
-                console.log(e.target.value)
-            }}>
-                <option key="-1">Select a unit...</option>
-                {renderOptions}
+            <Form.Select aria-label="Unit select" onChange={e => props.setCalcSelection({...props.calcSelection, attacker: e.target.value})}>
+                <option key="attackerSelect">Select a unit...</option>
+                {renderOptions("attacker")}
             </Form.Select>
             <Form.Label>Next, please select the defending unit:</Form.Label>
-            <Form.Select aria-label="Unit select" onChange={e => setCalcSelection({...calcSelection, defender: e.target.value})}>
-                <option>Select a unit...</option>
-                {renderOptions}
+            <Form.Select aria-label="Unit select" onChange={e => props.setCalcSelection({...props.calcSelection, defender: e.target.value})}>
+                <option key="defenderSelect">Select a unit...</option>
+                {renderOptions("defender")}
             </Form.Select>
             <br />
-            <Button variant="dark" type="submit" onClick={console.log(calcSelection)}>
+            <Button variant="dark" type="submit" >
                 Calculate
             </Button>
         </Form>
