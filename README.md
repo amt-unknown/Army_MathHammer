@@ -29,6 +29,7 @@ This table is referened by UnitData.
 | Column Name | Datatype | 
 | ----------- | --------- | 
 | name | String | 
+| units | Array(strings) (many-to-many, ref UnitData) |
 | range_type | String (enum: Melee, Ranged)|
 | strength | Integer | 
 | attacks | Integer | 
