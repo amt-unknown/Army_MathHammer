@@ -34,7 +34,7 @@ export default function UnitSelection (props) {
             </Form.Select>
             <br />
             <Button variant="dark" onClick={() => {onSubmit()}} >
-                Calculate
+                Calculation Setup
             </Button>
         </Form>
     )
