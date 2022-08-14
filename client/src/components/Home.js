@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 
 import UnitSelection from "./units/UnitSelection"
-import CalculationSetup from "./units/CalculationSetup"
+import CalculationSetup from "./units/Calculation"
 
 export default function Home() {
     const navigate = useNavigate()

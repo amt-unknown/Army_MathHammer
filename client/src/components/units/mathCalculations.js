@@ -7,12 +7,16 @@ class MathCalc {
     }
 
     //Methods
-    calcBasicHits(attacks = this.attacker.attacks) {
+    calcBasicHits(attacks = this.attacker.attacks, type="ranged") {
+        let skill = this.attacker.ballistic_skill
+        if (type == "melee") {
+            skill = this.attacker.weapon_skill
+        }
 
         if(attacks) {
             //converts raw value of ballistic skill(BS) into probability. 
             //E.g., a BS of 4 means a roll of a D6 of 4 or more hits thus prob=(7-4)/6=1/2
-            let prob = (7-this.attacker.ballistic_skill)/6
+            let prob = (7-skill)/6
 
             //Generates probability distribution with number of hits ranging from  0,1,...,attacks-1, attacks hits
             let probDist = []
@@ -26,18 +30,19 @@ class MathCalc {
         }
     }
 
-    calcBasicWounds(hits = this.attacker.atacks){
+    calcBasicWounds(hits = this.attacker.atacks, weapon_strength=this.attacker.strength){
+        let strength = weapon_strength
         //Converts attacker's strength(S) and defender's toughness(T) into a probability.
         //E.g., if S is less than T but greater than 1/2T the probability is 1/3
         if(this.attacker && this.defender) {
             let prob
-            if (this.attacker.strength*2 <= this.defender.toughness) {
+            if (strength*2 <= this.defender.toughness) {
                 prob = 1/6
-            } else if ((this.attacker.strength*2 > this.defender.toughness) && (this.attacker.strength < this.defender.toughness)){
+            } else if ((strength*2 > this.defender.toughness) && (strength < this.defender.toughness)){
                 prob = 1/3
-            } else if (this.attacker.strength == this.defender.toughness) {
+            } else if (strength == this.defender.toughness) {
                 prob = 1/2
-            } else if ((this.attacker.strength > this.defender.toughness) && (this.attacker.strength < 2*this.defender.toughness)) {
+            } else if ((strength > this.defender.toughness) && (strength < 2*this.defender.toughness)) {
                 prob = 2/3
             } else {
                 prob = 5/6

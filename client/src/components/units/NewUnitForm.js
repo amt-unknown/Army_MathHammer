@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {Form, Button, Row, Col, Container} from 'react-bootstrap'
 import {useNavigate} from 'react-router-dom'
+import WeaponSelection from "./WeaponSelection"
 
 export default function NewUnitForm () {
     const navigate = useNavigate()
@@ -16,6 +17,18 @@ export default function NewUnitForm () {
         wounds: null, 
         save: null
     })
+    const [weapons, setWeapons] = useState([])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const weaponResponse = await fetch(`http://localhost:5000/weapondata`)
+
+            const weaponResData = await weaponResponse.json()
+            setWeapons(weaponResData)
+        }
+        fetchData()
+
+    },[])
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -31,9 +44,15 @@ export default function NewUnitForm () {
         navigate('../')
     }
 
+    // function addWeaponSlot() {
+    //     return(
+
+    //     )
+    // }
+
     return(
         <Container>
-            <Form onSubmit={handleSubmit}>
+            <Form >
                 <Row sm={1}>
                     <Form.Group as={Col} controlId="formGridNames">
                         <Form.Label>Unit</Form.Label>
@@ -74,11 +93,13 @@ export default function NewUnitForm () {
                         <Form.Control type="number" onChange={e => setUnit({...unit, save: e.target.value})}/>
                     </Form.Group>
                 </Row>
-                <br />
-                <Button variant="dark" type="submit">
-                    Submit
-                </Button>
             </Form>
+            <br/>
+            {weapons.length!==0? <WeaponSelection weapons={weapons} />: ""}
+            <br />
+            <Button variant="dark" type="button" onClick={handleSubmit}>
+                Submit
+            </Button>
         </Container>
     )
 }
