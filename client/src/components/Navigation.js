@@ -6,7 +6,7 @@ export default function Navigation () {
     const navigate = useNavigate()
 
     return(
-    <Navbar bg="dark" expand="dark" variant="dark">
+    <Navbar bg="dark" expand="md" variant="dark">
       <Container>
         <Navbar.Brand href="#home">Army MathHammer</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

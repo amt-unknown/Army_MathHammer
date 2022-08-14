@@ -15,7 +15,7 @@ export default function UnitSelection (props) {
     } 
 
     function onSubmit() {
-        if (props.calcSelection.attaker != "" && props.calcSelection.defender != "") {
+        if (props.calcSelection.attaker !== "" && props.calcSelection.defender !== "") {
             props.setPageDisplayed("calculate")
         }
     }

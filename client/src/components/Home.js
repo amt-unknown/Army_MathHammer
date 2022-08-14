@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 
 import UnitSelection from "./units/UnitSelection"
-import Calculation from "./units/CalculationSetup"
+import CalculationSetup from "./units/CalculationSetup"
 
 export default function Home() {
     const navigate = useNavigate()
@@ -26,6 +26,7 @@ export default function Home() {
 
     },[])
 
+    console.log(calcSelection)
 
     const renderPageDisplay = () => {
         switch (pageDisplayed) {
@@ -50,7 +51,7 @@ export default function Home() {
             case "calculate":
                 return (
                     <div>    
-                        <Calculation calcSelection={calcSelection}/>
+                        <CalculationSetup calcSelection={calcSelection}/>
                         <br/>
                         <Button variant="dark"onClick={e => {setPageDisplayed("home"); setCalcSelection({attacker: "", defender: ""});}}>Back</Button>
                     </div>
