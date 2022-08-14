@@ -73,6 +73,30 @@ class MathCalc {
 
     }
 
+    //Returns distribution of overarching results. 
+
+    /*
+        total possible = n
+            Hits       Wounds     FailedSaves
+
+                Pw(n|n)      Ps(n|n)
+          /  n  --------- n --------  n     -->   P(n) = Ph(n)*Pw(n|n)*Ps(n|n)
+         /Ph(n) \            \
+        /        \Pw(n-1|n)   \Ps(n-1|n)
+       |          \            \
+       |   /  n-1 ------- n-1 ------- n-1   --->  P(n-1) = Ph(n)*Pw(n|n)*Ps(n-1|n) + Ph(n)*Pw(n-1|n)*Ps(n-1|n-1) + Ph(n-1)*Pw(n-1|n-1)*Ps(n-1|n-1)
+       |  /Ph(n-1)  \            \
+       | /           \Pw(n-2|n),  \
+       |/             \Pw(n-2|n-1) \
+        ----- n-2  ------- n-2 ------- n-2  --->  P(n-2) = TripleSum(Ph(i)*Pw(j|i)*Ps(k|j))   (i,j,k from n-2 to n))
+        
+        . . . . . . . . . . . . . . . . . . . 
+
+         \            \ P(0|n)    \ P(0|n)
+          \ Ph(0)      \ ...       \ ... 
+           \            \ P(0|0)    \ P(0|0)
+            \ 0 ----------- 0 --------- 0  ----->  P(0) = TripleSum(Ph(i)*Pw(j|i)*P(k|j))  (i,j,k from 0 to n)
+    */
     calcBasicResultsDist(attacks=this.attacker.attacks){
         if(attacks) {
             let probDist = []
@@ -108,6 +132,9 @@ class MathCalc {
 
     }
 
+    //Calculates Expectation(mean) and Standard Deviation
+    // Expectation = Sum(x * P(x))
+    // Standard Deviation = Sqrt(Sum( x^2 * P(x)))
     calcStats(attacks=this.attacker.attacks) {
         if(attacks) {
             let dist = this.calcBasicResultsDist(attacks)
