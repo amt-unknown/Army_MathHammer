@@ -5,16 +5,19 @@ export default function Calculation(props) {
 
     const [units, setUnits] = useState([{},{}])
     const [weapons, setWeapons] = useState([{},{}])
+    const [selWeapons, setSelWeapons] = useState(["", ""])
 
     useEffect(() => {
 
         const fetchData = async () => {
-            const attackerRepsonse = await fetch(`http://localhost:5000/unitdata/${props.calcSelection.attacker}`)
+            const attackerResponse = await fetch(`http://localhost:5000/unitdata/${props.calcSelection.attacker}`)
             const defenderResponse = await fetch(`http://localhost:5000/unitdata/${props.calcSelection.defender}`)
 
-            const attackerResData = await attackerRepsonse.json()
+            const attackerResData = await attackerResponse.json()
             const defenderResData = await defenderResponse.json()
             setUnits([attackerResData, defenderResData])
+            setWeapons([attackerResData.weapons, defenderResData.weapons])
+            setSelWeapons([weapons[0][0],weapons[1][0]])
         }
 
         
@@ -28,9 +31,9 @@ export default function Calculation(props) {
 
     function renderWeaponOptions (weapons) {
         if(weapons){
-            return weapons.map(weapon => {
+            return weapons.map((weapon, index) => {
                 return (
-                    <option value={weapon.id} key={weapon.weapon_id}>{weapon.name}</option>
+                    <option value={index} key={weapon.weapon_id}>{weapon.name}</option>
                 )
             })
         }
@@ -38,7 +41,7 @@ export default function Calculation(props) {
 
     function renderTables () {
         
-        return units.map((unit) => {
+        return units.map((unit, index) => {
             return (
                 <div>
 
@@ -79,21 +82,23 @@ export default function Calculation(props) {
                         </tr>
                         </tbody>
                     </Table>
+                    <br />
                     <Form>
 
                         {/* // Use Dropdown Buttons */}
 
                         <Form.Label>Select a Weapon:</Form.Label>
-                        <Form.Select aria-label="Unit select">
+                        <Form.Select aria-label="Unit select" onChange={(e) => {setSelWeapons(selWeapons[index] = weapons[index][e.target.value])}}>
                             {renderWeaponOptions(unit.weapons)}
                         </Form.Select>
                     </Form>
+                    {}
                 </div>
             )
         })
     }
 
-    
+    console.log(weapons)
 
     return (
         <Container>

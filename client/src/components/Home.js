@@ -26,8 +26,6 @@ export default function Home() {
 
     },[])
 
-    console.log(calcSelection)
-
     const renderPageDisplay = () => {
         switch (pageDisplayed) {
             case "home": 
