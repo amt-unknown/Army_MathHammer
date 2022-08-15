@@ -70,16 +70,17 @@ export default function Calculation(props) {
                                 <th colSpan={1} width="12.5%"></th>
                             </tr>
                         </thead>
-                        <tbody><tr xs={3}>
-                            <td colSpan={1}>{unit.weapon_skill}</td>
-                            <td colSpan={1}>{unit.ballistic_skill}</td>
-                            <td colSpan={1}>{unit.strength}</td>
-                            <td colSpan={1}>{unit.toughness}</td>
-                            <td colSpan={1}>{unit.attacks}</td>
-                            <td colSpan={1}>{unit.wounds}</td>
-                            <td colSpan={1}>{unit.save}</td>
-                            <td colSpan={1}></td>
-                        </tr>
+                        <tbody>
+                            <tr xs={3}>
+                                <td colSpan={1}>{unit.weapon_skill}</td>
+                                <td colSpan={1}>{unit.ballistic_skill}</td>
+                                <td colSpan={1}>{unit.strength}</td>
+                                <td colSpan={1}>{unit.toughness}</td>
+                                <td colSpan={1}>{unit.attacks}</td>
+                                <td colSpan={1}>{unit.wounds}</td>
+                                <td colSpan={1}>{unit.save}</td>
+                                <td colSpan={1}></td>
+                            </tr>
                         </tbody>
                     </Table>
                     <br />

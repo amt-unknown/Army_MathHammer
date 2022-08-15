@@ -19,6 +19,9 @@ export default function NewUnitForm () {
     })
     const [weapons, setWeapons] = useState([])
 
+    const [selWeapons, setSelWeapons] = useState([])
+
+
     useEffect(() => {
         const fetchData = async () => {
             const weaponResponse = await fetch(`http://localhost:5000/weapondata`)
@@ -33,12 +36,15 @@ export default function NewUnitForm () {
     async function handleSubmit(e) {
         e.preventDefault()
 
+        setUnit()
+        
+
         await fetch(`http://localhost:5000/unitdata`, {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(unit)
+            body: JSON.stringify({...unit,weapons:selWeapons})
         })
 
         navigate('../')
@@ -52,6 +58,7 @@ export default function NewUnitForm () {
 
     return(
         <Container>
+            <br />
             <Form >
                 <Row sm={1}>
                     <Form.Group as={Col} controlId="formGridNames">
@@ -95,10 +102,10 @@ export default function NewUnitForm () {
                 </Row>
             </Form>
             <br/>
-            {weapons.length!==0? <WeaponSelection weapons={weapons} />: ""}
+            {weapons.length!==0? <WeaponSelection weapons={weapons} selWeapons={selWeapons} setSelWeapons={setSelWeapons}/>: ""}
             <br />
             <Button variant="dark" type="button" onClick={handleSubmit}>
-                Submit
+                Submit New Unit
             </Button>
         </Container>
     )

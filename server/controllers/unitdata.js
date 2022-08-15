@@ -31,36 +31,48 @@ router.get('/:unitName', async (req, res) => {
 
 //POST route for new entries
 router.post('/', async (req, res) => {
-    const unitName = req.body.name
+    const unit = {
+        name: req.body.name,
+        army: req.body.army, 
+        weapon_skill: req.body.weapon_skill, 
+        ballistic_skill: req.body.ballistic_skill, 
+        strength: req.body.strength, 
+        toughness: req.body.toughness, 
+        attacks: req.body.attacks, 
+        wounds: req.body.wounds, 
+        save: req.body.save
+    }
     let unitData = await UnitData.findOne({
-        where: { name: unitName}
+        where: { name: unit.name}
     })
 
     if (unitData) {
         res.status(404).json({message: "Sorry, a unit with name already exists"})
     } else {
         unitData = await UnitData.create(req.body);
-        
-        //Add weapon associations if necessary
-        const unitWeapons = req.body.weapons
-        if (unitWeapons) {
-            unitWeapons.forEach(async weapon => {
-                let weaponData = await WeaponData.findOne({
-                    where: {name: weapon}
-                })
-                if (weaponData) { 
-                    const unitWeaponData = await UnitWeapons.create({
-                            unit_id: unitData.unit_id,
-                            weapon_id: weaponData.weapon_id
-                    })
-                } else {
-                    console.log("DNE")
-                }
+    }
+    //Add weapon associations if necessary
+    const unitWeapons = req.body.weapons
+    console.log(unitWeapons)
+    if (unitWeapons) {
+        unitWeapons.forEach(async weapon => {
+            let weaponData = await WeaponData.findOne({
+                where: {name: weapon.name}
             })
-        }
+            console.log(weaponData)
+            if (weaponData) { 
+                const unitWeaponData = await UnitWeapons.create({
+                        unit_id: unitData.unit_id,
+                        weapon_id: weaponData.weapon_id
+                })
+            } else {
+                console.log("Sorry, that weapon does not exist")
+            }
+        })
+    }
         
         res.json(unitData);
-    }
+    
 
 });
 
