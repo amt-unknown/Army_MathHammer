@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react"
-import {Form, Button, Row, Col, Container} from 'react-bootstrap'
+import {Form, Button, Row, Col, Container, InputGroup} from 'react-bootstrap'
 import {useNavigate} from 'react-router-dom'
 import WeaponSelection from "./WeaponSelection"
 
 export default function NewUnitForm () {
     const navigate = useNavigate()
+    const [validated, setValidated] = useState(false)
 
     const [unit, setUnit] = useState({
         name: '', 
@@ -34,79 +35,104 @@ export default function NewUnitForm () {
     },[])
 
     async function handleSubmit(e) {
-        e.preventDefault()
 
-        setUnit()
-        
+        const form = e.currentTarget
+        if (form.checkValidity() === false){
+            e.preventDefault()
+            e.stopPropagation()
+        } else {
+            setValidated(true)
+        }
 
-        await fetch(`http://localhost:5000/unitdata`, {
-            method: 'POST', 
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({...unit,weapons:selWeapons})
-        })
-
-        navigate('../')
+        if(validated) {
+            setUnit()
+            await fetch(`http://localhost:5000/unitdata`, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({...unit,weapons:selWeapons})
+            })
+    
+            navigate('../')
+        }
     }
 
-    // function addWeaponSlot() {
-    //     return(
-
-    //     )
-    // }
 
     return(
         <Container>
             <br />
-            <Form >
+            
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                <Button variant="dark" type="submit" >
+                    Submit New Unit
+                </Button>
                 <Row sm={1}>
                     <Form.Group as={Col} controlId="formGridNames">
                         <Form.Label>Unit</Form.Label>
-                        <Form.Control type="text" placeholder="Enter unit name" onChange={e => setUnit({...unit, name: e.target.value})}/>
+                        <InputGroup hasValidation>
+                            <Form.Control type="text" placeholder="Enter unit name" required onChange={e => setUnit({...unit, name: e.target.value})}/>
+                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                            <Form.Control.Feedback type="invalid">Please enter the unit's name</Form.Control.Feedback>
+
+                        </InputGroup>
                     </Form.Group>
                     <Form.Group as={Col}>
                         <Form.Label>Army</Form.Label>
-                        <Form.Control type="text" placeholder="Enter army name" onChange={e => setUnit({...unit, army: e.target.value})}/>
+                        <Form.Control type="text" placeholder="Enter army name" required onChange={e => setUnit({...unit, army: e.target.value})}/>
+                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Please enter the unit's army</Form.Control.Feedback>
                     </Form.Group>
                 </Row>
                 <Row xs={4} sm={7}>
                     <Form.Group as={Col}>
                         <Form.Label>WS</Form.Label>
-                        <Form.Control type="number" onChange={e => setUnit({...unit, weapon_skill: e.target.value})}/>
+                        <Form.Control type="number" placeholder="2-6" min={2} max={6} required onChange={e => setUnit({...unit, weapon_skill: e.target.value})}/>
+                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Please select a number between 2 and 6</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Col}>
                         <Form.Label>BS</Form.Label>
-                        <Form.Control type="number" onChange={e => setUnit({...unit, ballistic_skill: e.target.value})}/>
+                        <Form.Control type="number" placeholder="2-6" min={2} max={6} required onChange={e => setUnit({...unit, ballistic_skill: e.target.value})}/>
+                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Please select a number between 2 and 6</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Col}>
                         <Form.Label>S</Form.Label>
-                        <Form.Control type="number" onChange={e => setUnit({...unit, strength: e.target.value})}/>
+                        <Form.Control type="number" placeholder="1-20" min={1} max={20} required onChange={e => setUnit({...unit, strength: e.target.value})}/>
+                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Please select a number between 1 and 20</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Col}>
                         <Form.Label>T</Form.Label>
-                        <Form.Control type="number" onChange={e => setUnit({...unit, toughness: e.target.value})}/>
+                        <Form.Control type="number" placeholder="1-20" min={1} max={20} required onChange={e => setUnit({...unit, toughness: e.target.value})}/>
+                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Please select a number between 1 and 20</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Col}>
                         <Form.Label>A</Form.Label>
-                        <Form.Control type="number" onChange={e => setUnit({...unit, attacks: e.target.value})}/>
+                        <Form.Control type="number" placeholder="1-20" min={1} max={20} required onChange={e => setUnit({...unit, attacks: e.target.value})}/>
+                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Please select a number between 1 and 20</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Col}>
                         <Form.Label>W</Form.Label>
-                        <Form.Control type="number" onChange={e => setUnit({...unit, wounds: e.target.value})}/>
+                        <Form.Control type="number" placeholder="1-50" min={1} max={50} required onChange={e => setUnit({...unit, wounds: e.target.value})}/>
+                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Please select a number between 1 and 50</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Col}>
                         <Form.Label>Sv</Form.Label>
-                        <Form.Control type="number" onChange={e => setUnit({...unit, save: e.target.value})}/>
+                        <Form.Control type="number" placeholder="2-6" min={2} max={6} required onChange={e => setUnit({...unit, save: e.target.value})}/>
+                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Please select a number between 2 and 6</Form.Control.Feedback>
                     </Form.Group>
                 </Row>
             </Form>
             <br/>
+            <p>Please select weapons before submission</p>
             {weapons.length!==0? <WeaponSelection weapons={weapons} selWeapons={selWeapons} setSelWeapons={setSelWeapons}/>: ""}
             <br />
-            <Button variant="dark" type="button" onClick={handleSubmit}>
-                Submit New Unit
-            </Button>
         </Container>
     )
 }

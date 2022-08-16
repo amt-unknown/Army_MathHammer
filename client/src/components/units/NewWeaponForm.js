@@ -2,6 +2,8 @@ import { useState, useEffect } from "react"
 import { Container, Button, Form, Row, Col} from 'react-bootstrap'
 
 export default function NewWeaponForm(props) {
+    const [validated, setValidated] = useState(false)
+
     const [weapon, setWeapon] = useState({
         name: '',
         range_type: 'Ranged', 
@@ -13,15 +15,23 @@ export default function NewWeaponForm(props) {
     })
 
     async function handleSubmit(e) {
-        e.preventDefault()
-        
-        await fetch(`http://localhost:5000/weapondata`,{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(weapon)
-        })
+        const form = e.currentTarget
+        if (form.checkValidity() === false){
+            e.preventDefault()
+            e.stopPropagation()
+        } else {
+            setValidated(true)
+        }
+
+        if(validated) {
+            await fetch(`http://localhost:5000/weapondata`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(weapon)
+            })
+        }
 
         props.selectWeapon(weapon)
         props.setShowForm(false)
@@ -45,11 +55,11 @@ export default function NewWeaponForm(props) {
             <Row xs={4} sm={7}>
                 <Form.Group as={Col}>
                     <Form.Label>S</Form.Label>
-                    <Form.Control type="number" onChange={e => setWeapon({...weapon, strength: e.target.value})}/>
+                    <Form.Control type="number" min={1} max={20} onChange={e => setWeapon({...weapon, strength: e.target.value})}/>
                 </Form.Group>
                 <Form.Group as={Col}>
                     <Form.Label>A</Form.Label>
-                    <Form.Control type="number" onChange={e => setWeapon({...weapon, attacks: e.target.value})}/>
+                    <Form.Control type="number" min={1} max={20} onChange={e => setWeapon({...weapon, attacks: e.target.value})}/>
                 </Form.Group>
                 <Form.Group as={Col}>
                     <Form.Label>D</Form.Label>
@@ -57,7 +67,7 @@ export default function NewWeaponForm(props) {
                 </Form.Group>
                 <Form.Group as={Col}>
                     <Form.Label>AP</Form.Label>
-                    <Form.Control type="number" onChange={e => setWeapon({...weapon, armor_penetration: e.target.value})}/>
+                    <Form.Control type="number" min={-6} max={0} onChange={e => setWeapon({...weapon, armor_penetration: e.target.value})}/>
                 </Form.Group>
             </Row>
             <Row>
