@@ -59,7 +59,6 @@ router.post('/', async (req, res) => {
             let weaponData = await WeaponData.findOne({
                 where: {name: weapon.name}
             })
-            console.log(weaponData)
             if (weaponData) { 
                 const unitWeaponData = await UnitWeapons.create({
                         unit_id: unitData.unit_id,

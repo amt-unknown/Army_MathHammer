@@ -1,6 +1,6 @@
-const {combinations,sqrt} = require('mathjs')
+const {combinations,sqrt,round} = require('mathjs')
 
-class MathCalc {
+export default class MathCalc {
     constructor(attacker={}, defender={}) {
         this.attacker = attacker;
         this.defender = defender;
@@ -102,7 +102,7 @@ class MathCalc {
            \            \ P(0|0)    \ P(0|0)
             \ 0 ----------- 0 --------- 0  ----->  P(0) = TripleSum(Ph(i)*Pw(j|i)*P(k|j))  (i,j,k from 0 to n)
     */
-    calcBasicResultsDist(attacks=this.attacker.attacks){
+    calcBasicResultsDist(attacks=this.attacker.attacks,strength=this.attacker.strength){
         if(attacks) {
             let probDist = []
             for (let i = 0; i < attacks+1; i++){
@@ -113,7 +113,7 @@ class MathCalc {
             let fSavesDist = []
 
             for(let j = 0; j < attacks + 1; j++) {
-                woundsDist.push(this.calcBasicWounds(j))
+                woundsDist.push(this.calcBasicWounds(j,strength))
                 fSavesDist.push(this.calcBasicFailedSaves(j))
 
             }
@@ -140,9 +140,9 @@ class MathCalc {
     //Calculates Expectation(mean) and Standard Deviation
     // Expectation = Sum(x * P(x))
     // Standard Deviation = Sqrt(Sum( x^2 * P(x)))
-    calcStats(attacks=this.attacker.attacks) {
+    calcStats(attacks=this.attacker.attacks, strength=this.attacker.strength) {
         if(attacks) {
-            let dist = this.calcBasicResultsDist(attacks)
+            let dist = this.calcBasicResultsDist(attacks, strength)
             let exp = 0
             let std = 0
     
@@ -152,80 +152,9 @@ class MathCalc {
             }
             std=sqrt(std)
     
-            return[exp, std, dist]
+            return[round(exp,2), round(std,2), dist.map(item => 100*round(item,3)+"%")]
         } else {
             return [0,0,[]]
         }
     }
 }
-
-attacker = {
-    "unit_id": 7,
-    "name": "Scout",
-    "army": "Marines",
-    "weapon_skill": 3,
-    "ballistic_skill": 2,
-    "strength": 5,
-    "toughness": 4,
-    "attacks": 3,
-    "wounds": 2,
-    "save": 3,
-    "createdAt": "2022-08-11T04:21:14.079Z",
-    "updatedAt": "2022-08-11T04:21:14.079Z",
-    "weapons": [
-        {
-            "weapon_id": 2,
-            "name": "Rifle",
-            "range_type": "Ranged",
-            "strength": 4,
-            "attacks": 2,
-            "damage": "1",
-            "armor_penetration": 2,
-            "special_rules": null,
-            "createdAt": "2022-08-11T03:23:48.137Z",
-            "updatedAt": "2022-08-11T03:23:48.137Z",
-            "UnitWeapons": {
-                "unit_weapons_id": 1,
-                "unit_id": 7,
-                "weapon_id": 2
-            }
-        }
-    ]
-}
-defender = {
-    "unit_id": 7,
-    "name": "Scout",
-    "army": "Marines",
-    "weapon_skill": 4,
-    "ballistic_skill": 4,
-    "strength": 4,
-    "toughness": 4,
-    "attacks": 3,
-    "wounds": 2,
-    "save": 6,
-    "createdAt": "2022-08-11T04:21:14.079Z",
-    "updatedAt": "2022-08-11T04:21:14.079Z",
-    "weapons": [
-        {
-            "weapon_id": 2,
-            "name": "Rifle",
-            "range_type": "Ranged",
-            "strength": 4,
-            "attacks": 2,
-            "damage": "1",
-            "armor_penetration": 2,
-            "special_rules": null,
-            "createdAt": "2022-08-11T03:23:48.137Z",
-            "updatedAt": "2022-08-11T03:23:48.137Z",
-            "UnitWeapons": {
-                "unit_weapons_id": 1,
-                "unit_id": 7,
-                "weapon_id": 2
-            }
-        }
-    ]
-}
-
-test = new MathCalc(attacker, defender)
-
-console.log(test.calcStats(10))

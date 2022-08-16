@@ -1,5 +1,7 @@
 import { Container, Table , Form} from "react-bootstrap"
 import { useEffect, useState} from "react"
+import MathCalc from "./mathCalculations"
+
 
 export default function Calculation(props) {
 
@@ -27,8 +29,6 @@ export default function Calculation(props) {
 
     },[])
 
-    console.log(units)
-
     function renderWeaponOptions (weapons) {
         if(weapons){
             return weapons.map((weapon, index) => {
@@ -39,16 +39,17 @@ export default function Calculation(props) {
         }
     }
 
-    function renderTables () {
+    function renderUnitDataTables () {
+        let type = ["Attacking", "Defending"]
         
         return units.map((unit, index) => {
             return (
                 <div>
 
-                    <Table striped bordered hovered>
+                    <Table striped bordered>
                         <thead>
                             <tr sm={1}>
-                                <th colSpan={4} width="50%">Unit Name</th>
+                                <th colSpan={4} width="50%">{type[index]} Unit's Name</th>
                                 <th colSpan={4}>Army</th>
                             </tr>
                         </thead>
@@ -83,27 +84,61 @@ export default function Calculation(props) {
                             </tr>
                         </tbody>
                     </Table>
-                    <br />
-                    <Form>
-
-                        {/* // Use Dropdown Buttons */}
-
-                        <Form.Label>Select a Weapon:</Form.Label>
-                        <Form.Select aria-label="Unit select" onChange={(e) => {setSelWeapons(selWeapons[index] = weapons[index][e.target.value])}}>
-                            {renderWeaponOptions(unit.weapons)}
-                        </Form.Select>
-                    </Form>
                     {}
                 </div>
             )
         })
     }
 
-    console.log(weapons)
+
+    function renderWeaponStats(weapons=[]){
+        const calcSetup = new MathCalc(units[0], units[1])
+
+        let weaponStats = weapons.map(weapon => {
+            return(calcSetup.calcStats(weapon.attacks, weapon.strength))
+        })
+        let weaponNames = weapons.map(weapon => weapon.name)
+        
+        let allStats = [calcSetup.calcStats(),...weaponStats]
+        let allNames = ['Unarmed', ...weaponNames]
+        
+        function createRowEntries() {
+            return(
+                allNames.map((entry,index) => {
+                    return(
+                        <tr>
+                                <td>{entry}</td>
+                                <td>{allStats[index][0]}</td>
+                                <td>{allStats[index][1]}</td>
+                        </tr>
+                    )
+                })
+            )
+        }
+
+        return (
+            <Table striped bordered>
+                <thead>
+                    <tr>
+                        <th>Weapon Name:</th>
+                        <th>Average Wounds</th>
+                        <th>Average Variation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {createRowEntries()}
+                </tbody>
+            </Table>
+        )
+    }
+
 
     return (
         <Container>
-            {renderTables()}
+            <br />
+            {renderUnitDataTables()}
+            {/* {console.log(weapons)} */}
+            {renderWeaponStats(units[0].weapons)}
         </Container>
     )
 
