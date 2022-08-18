@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Container, Button, Form, Row, Col} from 'react-bootstrap'
+import { Container, Button, Form, Row, Col, InputGroup} from 'react-bootstrap'
 
 export default function NewWeaponForm(props) {
     const [validated, setValidated] = useState(false)
@@ -23,26 +23,33 @@ export default function NewWeaponForm(props) {
             setValidated(true)
         }
 
+        console.log(weapon)
         if(validated) {
-            await fetch(`http://localhost:5000/weapondata`,{
+            await fetch(`${process.env.REACT_APP_SERVER_URL}weapondata`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(weapon)
             })
+
+
+            props.selectWeapon(weapon)
+            props.setShowForm(false)
         }
 
-        props.selectWeapon(weapon)
-        props.setShowForm(false)
 
     }
     return(
-        <Form onSubmit={handleSubmit}>
+        <Container> 
+        <Form noValidate validated={validated}>
             <Row sm={1}>
                 <Form.Group as={Col} controlId="formGridNames">
                     <Form.Label>Weapon</Form.Label>
-                    <Form.Control type="text" placeholder="Enter weapon name" onChange={e => setWeapon({...weapon, name: e.target.value})}/>
+                    <InputGroup hasValidation>
+                        <Form.Control type="text" placeholder="Enter weapon name" onChange={e => setWeapon({...weapon, name: e.target.value})}/>
+                        <Form.Control.Feedback type="invalid">Please enter the weapons's name</Form.Control.Feedback>
+                    </InputGroup>
                 </Form.Group>
                 <Form.Group as={Col}>
                     <Form.Label>Range-Type</Form.Label>
@@ -55,19 +62,19 @@ export default function NewWeaponForm(props) {
             <Row xs={4} sm={7}>
                 <Form.Group as={Col}>
                     <Form.Label>S</Form.Label>
-                    <Form.Control type="number" min={1} max={20} onChange={e => setWeapon({...weapon, strength: e.target.value})}/>
+                    <Form.Control type="number" placeholder="1-20" min={1} max={20} onChange={e => setWeapon({...weapon, strength: e.target.value})}/>
                 </Form.Group>
                 <Form.Group as={Col}>
                     <Form.Label>A</Form.Label>
-                    <Form.Control type="number" min={1} max={20} onChange={e => setWeapon({...weapon, attacks: e.target.value})}/>
+                    <Form.Control type="number" placeholder="1-20" min={1} max={20} onChange={e => setWeapon({...weapon, attacks: e.target.value})}/>
                 </Form.Group>
                 <Form.Group as={Col}>
                     <Form.Label>D</Form.Label>
-                    <Form.Control type="text" onChange={e => setWeapon({...weapon, damage: e.target.value})}/>
+                    <Form.Control type="text" placeholder="1-6" onChange={e => setWeapon({...weapon, damage: e.target.value})}/>
                 </Form.Group>
                 <Form.Group as={Col}>
                     <Form.Label>AP</Form.Label>
-                    <Form.Control type="number" min={-6} max={0} onChange={e => setWeapon({...weapon, armor_penetration: e.target.value})}/>
+                    <Form.Control type="number" placeholder="-6-0" min={-6} max={0} onChange={e => setWeapon({...weapon, armor_penetration: e.target.value})}/>
                 </Form.Group>
             </Row>
             <Row>
@@ -78,9 +85,10 @@ export default function NewWeaponForm(props) {
                     </Form.Select>
                 </Form.Group>
             </Row>
-            <Button variant="dark" type="submit">
+            <Button variant="dark" type="submit" onClick={handleSubmit}>
                 Submit New Weapon
             </Button>
         </Form>
+        </Container >
     )
 }

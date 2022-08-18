@@ -12,8 +12,10 @@ export default function Navigation () {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="" onClick={() => navigate('/')}>Home</Nav.Link>
-            <Nav.Link href="/createUnit" onClick={() => navigate('/createUnit')}>Create Unit</Nav.Link>
+            {/* <Nav.Link href="" onClick={() => navigate('/')}>Home</Nav.Link>
+            <Nav.Link href="/createUnit" onClick={() => navigate('/createUnit')}>Create Unit</Nav.Link> */}
+            <Nav.Link onClick={() => navigate('/')}>Home</Nav.Link>
+            <Nav.Link onClick={() => navigate('/createUnit')}>Create Unit</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -12,8 +12,8 @@ export default function Calculation(props) {
     useEffect(() => {
 
         const fetchData = async () => {
-            const attackerResponse = await fetch(`http://localhost:5000/unitdata/${props.calcSelection.attacker}`)
-            const defenderResponse = await fetch(`http://localhost:5000/unitdata/${props.calcSelection.defender}`)
+            const attackerResponse = await fetch(`${process.env.REACT_APP_SERVER_URL}unitdata/${props.calcSelection.attacker}`)
+            const defenderResponse = await fetch(`${process.env.REACT_APP_SERVER_URL}unitdata/${props.calcSelection.defender}`)
 
             const attackerResData = await attackerResponse.json()
             const defenderResData = await defenderResponse.json()
@@ -29,15 +29,15 @@ export default function Calculation(props) {
 
     },[])
 
-    function renderWeaponOptions (weapons) {
-        if(weapons){
-            return weapons.map((weapon, index) => {
-                return (
-                    <option value={index} key={weapon.weapon_id}>{weapon.name}</option>
-                )
-            })
-        }
-    }
+    // function renderWeaponOptions (weapons) {
+    //     if(weapons){
+    //         return weapons.map((weapon, index) => {
+    //             return (
+    //                 <option value={index} key={weapon.weapon_id}>{weapon.name}</option>
+    //             )
+    //         })
+    //     }
+    // }
 
     function renderUnitDataTables () {
         let type = ["Attacking", "Defending"]
@@ -137,7 +137,6 @@ export default function Calculation(props) {
         <Container>
             <br />
             {renderUnitDataTables()}
-            {/* {console.log(weapons)} */}
             {renderWeaponStats(units[0].weapons)}
         </Container>
     )

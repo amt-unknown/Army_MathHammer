@@ -50,27 +50,27 @@ router.post('/', async (req, res) => {
         res.status(404).json({message: "Sorry, a unit with name already exists"})
     } else {
         unitData = await UnitData.create(req.body);
-    }
-    //Add weapon associations if necessary
-    const unitWeapons = req.body.weapons
-    console.log(unitWeapons)
-    if (unitWeapons) {
-        unitWeapons.forEach(async weapon => {
-            let weaponData = await WeaponData.findOne({
-                where: {name: weapon.name}
-            })
-            if (weaponData) { 
-                const unitWeaponData = await UnitWeapons.create({
-                        unit_id: unitData.unit_id,
-                        weapon_id: weaponData.weapon_id
+        //Add weapon associations if necessary
+        const unitWeapons = req.body.weapons
+        console.log(unitWeapons)
+        if (unitWeapons) {
+            unitWeapons.forEach(async weapon => {
+                let weaponData = await WeaponData.findOne({
+                    where: {name: weapon.name}
                 })
-            } else {
-                console.log("Sorry, that weapon does not exist")
-            }
-        })
+                if (weaponData) { 
+                    const unitWeaponData = await UnitWeapons.create({
+                            unit_id: unitData.unit_id,
+                            weapon_id: weaponData.weapon_id
+                    })
+                } else {
+                    console.log("Sorry, that weapon does not exist")
+                }
+            })
+        }
+            
+            res.json(unitData);
     }
-        
-        res.json(unitData);
     
 
 });

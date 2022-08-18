@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
+const path = require('path')
 
 // Express Settings
 app.use(cors());
@@ -19,6 +20,11 @@ app.use(express.urlencoded({ extended: true }));
 // Add controllers
 app.use('/unitdata', require('./controllers/unitdata'));
 app.use('/weapondata', require('./controllers/weapondata'))
+
+// Serve static front end in production mode
+// if(process.env.NODE_ENV === "production") {
+//     app.use(express.static(path.join(__dirname, 'public', 'build')))
+// }
 
 // Listen for Connections
 app.listen(process.env.PORT, () => {

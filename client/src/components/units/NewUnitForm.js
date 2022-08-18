@@ -25,7 +25,7 @@ export default function NewUnitForm () {
 
     useEffect(() => {
         const fetchData = async () => {
-            const weaponResponse = await fetch(`http://localhost:5000/weapondata`)
+            const weaponResponse = await fetch(`${process.env.REACT_APP_SERVER_URL}weapondata`)
 
             const weaponResData = await weaponResponse.json()
             setWeapons(weaponResData)
@@ -35,7 +35,7 @@ export default function NewUnitForm () {
     },[])
 
     async function handleSubmit(e) {
-
+        e.preventDefault()
         const form = e.currentTarget
         if (form.checkValidity() === false){
             e.preventDefault()
@@ -45,8 +45,9 @@ export default function NewUnitForm () {
         }
 
         if(validated) {
+            console.log(unit, selWeapons)
             setUnit()
-            await fetch(`http://localhost:5000/unitdata`, {
+            await fetch(`${process.env.REACT_APP_SERVER_URL}unitdata`, {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json'
@@ -54,7 +55,8 @@ export default function NewUnitForm () {
                 body: JSON.stringify({...unit,weapons:selWeapons})
             })
     
-            navigate('../')
+            navigate('/')
+        } else {
         }
     }
 
@@ -63,8 +65,8 @@ export default function NewUnitForm () {
         <Container>
             <br />
             
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <Button variant="dark" type="submit" >
+            <Form noValidate validated={validated}>
+                <Button variant="dark" type="submit" onClick={handleSubmit}>
                     Submit New Unit
                 </Button>
                 <Row sm={1}>
@@ -74,7 +76,6 @@ export default function NewUnitForm () {
                             <Form.Control type="text" placeholder="Enter unit name" required onChange={e => setUnit({...unit, name: e.target.value})}/>
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                             <Form.Control.Feedback type="invalid">Please enter the unit's name</Form.Control.Feedback>
-
                         </InputGroup>
                     </Form.Group>
                     <Form.Group as={Col}>

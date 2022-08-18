@@ -5,7 +5,7 @@ import {useState, useEffect} from 'react'
 import UnitSelection from "./units/UnitSelection"
 import Calculation from "./units/Calculation"
 
-export default function Home() {
+export default function Home({navigation}) {
     const navigate = useNavigate()
 
     const [units, setUnits] = useState([])
@@ -17,7 +17,7 @@ export default function Home() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const unitRepsonse = await fetch(`http://localhost:5000/unitdata`)
+            const unitRepsonse = await fetch(`${process.env.REACT_APP_SERVER_URL}unitdata`)
 
             const unitResData = await unitRepsonse.json()
             setUnits(unitResData)
@@ -28,7 +28,7 @@ export default function Home() {
 
     const renderPageDisplay = () => {
         switch (pageDisplayed) {
-            case "home": 
+            default: 
                 return (<div>
                         <h3>Overview:</h3>
                         <p>Inspired by the tabletop game Warhammer 40k by Gamesworkshop,
@@ -42,10 +42,9 @@ export default function Home() {
 
                         <br/>
                         <p>Don't see the unit your are looking for? Click below to add your desired unit.</p>
-                        <Button variant="dark" onClick={e => navigate('/createUnit')}>Create a Unit</Button>
+                        <Button variant="dark" onClick={e => navigate("/createUnit")}>Create a Unit</Button>
                     </div>
                 )
-                break;
             case "calculate":
                 return (
                     <div>    
@@ -55,7 +54,6 @@ export default function Home() {
                     </div>
 
                 )
-                break;
             }
     }
 
