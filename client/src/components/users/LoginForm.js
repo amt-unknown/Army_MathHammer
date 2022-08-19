@@ -16,7 +16,24 @@ export default function LoginForm() {
     const [errorMessage, setErrorMessage] = useState(null)
 
     async function handleSubmit(e) {
-        e.preventDefaul()
+        e.preventDefault()
+
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}authentication`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        })
+
+        const data = await response.json()
+
+        if (response.status === 200){
+            setCurrentUser(data.user)
+            navigate('/')
+        } else {
+            setErrorMessage(data.message)
+        }
     }
 
     return(

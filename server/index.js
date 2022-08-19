@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/unitdata', require('./controllers/unitdata'));
 app.use('/weapondata', require('./controllers/weapondata'))
 app.use('/user', require('./controllers/users'))
+app.use('/authentication', require('./controllers/authentication'))
 
 // Serve static front end in production mode
 // if(process.env.NODE_ENV === "production") {
