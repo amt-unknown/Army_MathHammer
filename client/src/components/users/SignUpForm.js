@@ -8,6 +8,7 @@ export default function SignUpForm() {
     const [user, setUser ] = useState({
         firstName: '', 
         lastName: '', 
+        email: '',
         password: ''
     })
 
@@ -39,6 +40,12 @@ export default function SignUpForm() {
                     <Form.Group as={Col}>
                         <Form.Label>Last Name</Form.Label>
                         <Form.Control type="text" placeholder="Enter your last name" required onChange={e => setUser({...user, lastName: e.target.value})}/>
+                    </Form.Group>
+                </Row>
+                <Row sm={1} >
+                    <Form.Group as={Col}>
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control type="email" placeholder="Enter an email" required onChange={e => setUser({...user, email: e.target.value})}/>
                     </Form.Group>
                 </Row>
                 <Row sm={1} >
