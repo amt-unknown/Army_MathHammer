@@ -13,11 +13,17 @@ app.use(cookieSession({
     keys: [process.env.SESSION_SECRET],
     maxAge: 24*60*60*1000
 }))
-app.use(cors({
-    // origin: `${process.env.REACT_APP_SERVER_URL}`,
-    origin: 'http://localhost:3000',
-    credentials: true
-}));
+if(process.env.NODE_ENV === "production"){
+    app.use(cors({
+        credentials: true
+    }));
+} else {
+    app.use(cors({
+        origin: 'http://localhost:3000',
+        credentials: true
+    }));
+    
+}
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());

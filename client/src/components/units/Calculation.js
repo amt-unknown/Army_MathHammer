@@ -1,93 +1,80 @@
-import { Container, Table , Form} from "react-bootstrap"
+import { Container, Table , Button} from "react-bootstrap"
 import { useEffect, useState} from "react"
+import {useNavigate} from 'react-router'
 import MathCalc from "./MathCalculations"
+import UnitSelection from './UnitSelection'
 
 
 export default function Calculation(props) {
 
-    const [units, setUnits] = useState([{},{}])
-    const [weapons, setWeapons] = useState([{},{}])
-    const [selWeapons, setSelWeapons] = useState(["", ""])
+    const navigate = useNavigate()
+    const [units, setUnits] = useState([])
+    const [weapons, setWeapons] = useState([])
+    const [calcSelection, setCalcSelection] = useState([{},{}])
 
     useEffect(() => {
-
         const fetchData = async () => {
-            const attackerResponse = await fetch(`${process.env.REACT_APP_SERVER_URL}unitdata/${props.calcSelection.attacker}`)
-            const defenderResponse = await fetch(`${process.env.REACT_APP_SERVER_URL}unitdata/${props.calcSelection.defender}`)
+            const unitRepsonse = await fetch(`${process.env.REACT_APP_SERVER_URL}unitdata`)
 
-            const attackerResData = await attackerResponse.json()
-            const defenderResData = await defenderResponse.json()
-            setUnits([attackerResData, defenderResData])
-            setWeapons([attackerResData.weapons, defenderResData.weapons])
-            setSelWeapons([weapons[0][0],weapons[1][0]])
+            const unitResData = await unitRepsonse.json()
+            setUnits(unitResData)
         }
-
-        
         fetchData()
-
-        
 
     },[])
 
-    // function renderWeaponOptions (weapons) {
-    //     if(weapons){
-    //         return weapons.map((weapon, index) => {
-    //             return (
-    //                 <option value={index} key={weapon.weapon_id}>{weapon.name}</option>
-    //             )
-    //         })
-    //     }
-    // }
 
     function renderUnitDataTables () {
         let type = ["Attacking", "Defending"]
         
-        return units.map((unit, index) => {
-            return (
-                <div>
-
-                    <Table striped bordered>
-                        <thead>
-                            <tr sm={1}>
-                                <th colSpan={4} width="50%">{type[index]} Unit's Name</th>
-                                <th colSpan={4}>Army</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr sm={1}>
-                                <td colSpan={4}>{unit.name}</td>
-                                <td colSpan={4}>{unit.army}</td>
-                            </tr>
-                        </tbody>
-                        <thead>
-                            <tr xs={3}>
-                                <th colSpan={1} width="12.5%">WS</th>
-                                <th colSpan={1} width="12.5%">BS</th>
-                                <th colSpan={1} width="12.5%">S </th>
-                                <th colSpan={1} width="12.5%">T </th>
-                                <th colSpan={1} width="12.5%">A </th>
-                                <th colSpan={1} width="12.5%">W </th>
-                                <th colSpan={1} width="12.5%">Sv</th>
-                                <th colSpan={1} width="12.5%"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr xs={3}>
-                                <td colSpan={1}>{unit.weapon_skill}</td>
-                                <td colSpan={1}>{unit.ballistic_skill}</td>
-                                <td colSpan={1}>{unit.strength}</td>
-                                <td colSpan={1}>{unit.toughness}</td>
-                                <td colSpan={1}>{unit.attacks}</td>
-                                <td colSpan={1}>{unit.wounds}</td>
-                                <td colSpan={1}>{unit.save}</td>
-                                <td colSpan={1}></td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                    {}
-                </div>
-            )
-        })
+        if(units){
+            return calcSelection.map((unit, index) => {
+                return (
+                    <div>
+    
+                        <Table striped bordered>
+                            <thead>
+                                <tr sm={1}>
+                                    <th colSpan={4} width="50%">{type[index]} Unit's Name</th>
+                                    <th colSpan={4}>Army</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr sm={1}>
+                                    <td colSpan={4}>{unit.name}</td>
+                                    <td colSpan={4}>{unit.army}</td>
+                                </tr>
+                            </tbody>
+                            <thead>
+                                <tr xs={3}>
+                                    <th colSpan={1} width="12.5%">WS</th>
+                                    <th colSpan={1} width="12.5%">BS</th>
+                                    <th colSpan={1} width="12.5%">S </th>
+                                    <th colSpan={1} width="12.5%">T </th>
+                                    <th colSpan={1} width="12.5%">A </th>
+                                    <th colSpan={1} width="12.5%">W </th>
+                                    <th colSpan={1} width="12.5%">Sv</th>
+                                    <th colSpan={1} width="12.5%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr xs={3}>
+                                    <td colSpan={1}>{unit.weapon_skill}</td>
+                                    <td colSpan={1}>{unit.ballistic_skill}</td>
+                                    <td colSpan={1}>{unit.strength}</td>
+                                    <td colSpan={1}>{unit.toughness}</td>
+                                    <td colSpan={1}>{unit.attacks}</td>
+                                    <td colSpan={1}>{unit.wounds}</td>
+                                    <td colSpan={1}>{unit.save}</td>
+                                    <td colSpan={1}></td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                        {}
+                    </div>
+                )
+            })
+        }
     }
 
 
@@ -132,12 +119,25 @@ export default function Calculation(props) {
         )
     }
 
+    function displayTables(){
+        if(Object.keys(calcSelection[0]).length && Object.keys(calcSelection[1]).length) {
+            return(
+                <>
+                <br />
+                <h2>Character Datasheets</h2>
+                {renderUnitDataTables()}
+                <h3>Statistics based on weapons:</h3>
+                {renderWeaponStats(calcSelection[0].weapons)}
+                </>
+            )
+        }
+    }
 
     return (
         <Container>
-            <br />
-            {renderUnitDataTables()}
-            {renderWeaponStats(units[0].weapons)}
+            <UnitSelection units={units} calcSelection={calcSelection} setCalcSelection={setCalcSelection}/>
+            {displayTables()}
+            <Button variant='dark' type='button' onClick={e => navigate('/')}>Back</Button>
         </Container>
     )
 

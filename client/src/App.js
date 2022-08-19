@@ -7,6 +7,7 @@ import CurrentUserProvider from './contexts/CurrentUser'
 import SignUpForm from './components/users/SignUpForm'
 import LoginForm from './components/users/LoginForm'
 import NewWeaponForm from './components/units/NewWeaponForm'
+import Calculation from './components/units/Calculation'
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route exact path='/' element={<Home />} />
           <Route exact path='/createUnit' element={<NewUnitForm />} />
           <Route exact path='/createweapon' element={<NewWeaponForm />}/>
+          <Route exact path='/calculation' element={<Calculation />}/>
           <Route exact path='/signup' element={<SignUpForm />} />
           <Route exact path='/login' element={<LoginForm />}/>
           <Route path="*" element={<Error404 />} />

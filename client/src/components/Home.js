@@ -8,29 +8,9 @@ import Calculation from "./units/Calculation"
 export default function Home({navigation}) {
     const navigate = useNavigate()
 
-    const [units, setUnits] = useState([])
-    const [pageDisplayed, setPageDisplayed] = useState("home")
-    const [calcSelection, setCalcSelection] = useState({
-        attacker: "", 
-        defender: ""
-    })
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const unitRepsonse = await fetch(`${process.env.REACT_APP_SERVER_URL}unitdata`)
-
-            const unitResData = await unitRepsonse.json()
-            setUnits(unitResData)
-        }
-        fetchData()
-
-    },[])
-
-    const renderPageDisplay = () => {
-        switch (pageDisplayed) {
-            default: 
-                return (<div>
-                        <h3>Overview:</h3>
+    return (
+        <Container>
+            <h3>Overview:</h3>
                         <p>Inspired by the tabletop game Warhammer 40k by Gamesworkshop,
                         this website is dedicated to providing detailed probabilty 
                         and statistics for unit interactions. It is often seen that 
@@ -38,32 +18,14 @@ export default function Home({navigation}) {
                         and "Re-roll a result of 1." The aim is to provide further 
                         insight to these special cases.  </p>
 
-                        <UnitSelection units={units} calcSelection={calcSelection} setCalcSelection={setCalcSelection} setPageDisplayed={setPageDisplayed}/>
+                        <h4>Calculate statistics:</h4>
+                        <p>To calculate statistics on existing character sheets press the button below.</p>
 
+                        <Button variant="dark" onClick={e => navigate("/calculation")}>View Statistics</Button>
                         <br/>
-                        <p>Don't see the unit your are looking for? Click below to add your desired unit.</p>
+                        <br/>
+                        <p>Don't see the character your are looking for? Click below to add your desired unit.</p>
                         <Button variant="dark" onClick={e => navigate("/createUnit")}>Create a Unit</Button>
-                    </div>
-                )
-            case "calculate":
-                return (
-                    <div>    
-                        <Calculation calcSelection={calcSelection}/>
-                        <br/>
-                        <Button variant="dark"onClick={e => {setPageDisplayed("home"); setCalcSelection({attacker: "", defender: ""});}}>Back</Button>
-                    </div>
-
-                )
-            }
-    }
-
-    return (
-        <Container>
-            
-
-            {renderPageDisplay()}
-
-            
         </Container>
     )
 }
