@@ -20,6 +20,7 @@ export default function LoginForm() {
 
         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}authentication`,{
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
