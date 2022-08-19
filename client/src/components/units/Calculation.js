@@ -79,7 +79,7 @@ export default function Calculation(props) {
 
 
     function renderWeaponStats(weapons=[]){
-        const calcSetup = new MathCalc(units[0], units[1])
+        let calcSetup = new MathCalc(units[0], units[1])
 
         let weaponStats = weapons.map(weapon => {
             return(calcSetup.calcStats(weapon.attacks, weapon.strength))
@@ -89,6 +89,7 @@ export default function Calculation(props) {
         let allStats = [calcSetup.calcStats(),...weaponStats]
         let allNames = ['Unarmed', ...weaponNames]
         
+        //Creates Rows to display entries from class MathCalc
         function createRowEntries() {
             return(
                 allNames.map((entry,index) => {
@@ -119,6 +120,7 @@ export default function Calculation(props) {
         )
     }
 
+    //Checks if selections have been made before displaying and running calculator
     function displayTables(){
         if(Object.keys(calcSelection[0]).length && Object.keys(calcSelection[1]).length) {
             return(

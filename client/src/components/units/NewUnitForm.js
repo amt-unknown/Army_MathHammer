@@ -6,7 +6,6 @@ import WeaponSelection from "./WeaponSelection"
 export default function NewUnitForm () {
     const navigate = useNavigate()
     const [validated, setValidated] = useState(false)
-
     const [unit, setUnit] = useState({
         name: '', 
         army: '', 
@@ -35,28 +34,17 @@ export default function NewUnitForm () {
     },[])
 
     async function handleSubmit(e) {
-        // e.preventDefault()
-        // const form = e.currentTarget
-        // if (form.checkValidity() === false){
-            e.preventDefault()
-        //     e.stopPropagation()
-        // } else {
-        //     setValidated(true)
-        // }
+        e.preventDefault()
 
-        // if(validated) {
-            // console.log(unit, selWeapons)
-            await fetch(`${process.env.REACT_APP_SERVER_URL}unitdata`, {
-                method: 'POST', 
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({...unit,weapons:selWeapons})
-            })
-            navigate('/')
+        await fetch(`${process.env.REACT_APP_SERVER_URL}unitdata`, {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({...unit,weapons:selWeapons})
+        })
+        navigate('/')
     
-        // } else {
-        // }
     }
 
 

@@ -20,6 +20,7 @@ export default function WeaponSelection (props) {
             }
         })
 
+
         if (!exist) {
             if(index !== 0) {
                 props.setSelWeapons([...props.selWeapons, weapon])

@@ -2,9 +2,6 @@ import {Button, Container} from 'react-bootstrap'
 import {useNavigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 
-import UnitSelection from "./units/UnitSelection"
-import Calculation from "./units/Calculation"
-
 export default function Home({navigation}) {
     const navigate = useNavigate()
 

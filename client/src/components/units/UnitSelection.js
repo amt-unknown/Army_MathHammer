@@ -7,6 +7,7 @@ export default function UnitSelection (props) {
     const navigate = useNavigate()
     
 
+    //Renders options for drop down
     function renderOptions(option=0){
         if(props.units){
             return props.units.map(unit => {
@@ -21,6 +22,8 @@ export default function UnitSelection (props) {
                 const response = await fetch(`${process.env.REACT_APP_SERVER_URL}unitdata/${name}`)
 
                 const resData = await response.json()
+
+                //Decideds which index to updata the calcSelecion props to avoid conflicts
                 if(index===0){
                     props.setCalcSelection([resData,props.calcSelection[1]])
                 } else {

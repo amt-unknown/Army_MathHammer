@@ -4,8 +4,8 @@ import {useNavigate} from 'react-router-dom'
 
 export default function EditUnitForm() {
     const navigate = useNavigate()
+    
     const [validated, setValidated] = useState(false)
-
     const [unit, setUnit] = useState({
         name: '', 
         army: '', 
@@ -17,11 +17,6 @@ export default function EditUnitForm() {
         wounds: null, 
         save: null
     })
-
-    const [unitOld, setUnitOld] = useState({
-        name: ''
-    })
-
     const [allUnits,setAllUnits] = useState([])
 
     useEffect(() => {
