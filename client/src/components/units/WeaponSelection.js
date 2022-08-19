@@ -1,9 +1,11 @@
-import { Dropdown, Container, Table } from 'react-bootstrap'
+import { Dropdown, Container, Table, Button} from 'react-bootstrap'
 import {useState} from 'react'
+import { useNavigate } from 'react-router'
 import NewWeaponForm from './NewWeaponForm'
 
 
 export default function WeaponSelection (props) {    
+    const navigate = useNavigate()
 
     const [index, setIndex] = useState(0)
     const [newWeapon, setNewWeapon] = useState({})
@@ -84,22 +86,22 @@ export default function WeaponSelection (props) {
         })
     }
 
-    return (
+    return(
         <Container>
-            <Dropdown>
-                <Dropdown.Toggle variant="secondary" id="dropdown-weapon1">
-                    Please select a weapon
-                </Dropdown.Toggle>
+                <Dropdown>
+                    <Dropdown.Toggle variant="secondary" id="dropdown-weapon1">
+                        Please select a weapon
+                    </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                    <Dropdown.Item key="newWeapon" onClick={(e) => setShowForm(true)}>+ Create new weapon</Dropdown.Item>
-                    {renderDropdownItems()}
-                </Dropdown.Menu>
-            </Dropdown>
-            <br />
-            {showForm? <NewWeaponForm index={index} selectWeapon={selectWeapon} setShowForm={setShowForm} selWeapons={props.selWeapons} setSelWeapons={props.setSelWeapons}/>: ""}
+                    <Dropdown.Menu>
+                        {renderDropdownItems()}
+                    </Dropdown.Menu>
+                </Dropdown>
+                <Button variant="dark" key="newWeapon" onClick={(e) => navigate("/createweapon")}>Create new weapon</Button>
+                <br />
+                {showForm? <NewWeaponForm index={index} selectWeapon={selectWeapon} setShowForm={setShowForm} selWeapons={props.selWeapons} setSelWeapons={props.setSelWeapons}/>: ""}
             <br />
             {renderWeaponTable()}
         </Container>
-        )
+    )
 }

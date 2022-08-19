@@ -35,18 +35,17 @@ export default function NewUnitForm () {
     },[])
 
     async function handleSubmit(e) {
-        e.preventDefault()
-        const form = e.currentTarget
-        if (form.checkValidity() === false){
+        // e.preventDefault()
+        // const form = e.currentTarget
+        // if (form.checkValidity() === false){
             e.preventDefault()
-            e.stopPropagation()
-        } else {
-            setValidated(true)
-        }
+        //     e.stopPropagation()
+        // } else {
+        //     setValidated(true)
+        // }
 
-        if(validated) {
-            console.log(unit, selWeapons)
-            setUnit()
+        // if(validated) {
+            // console.log(unit, selWeapons)
             await fetch(`${process.env.REACT_APP_SERVER_URL}unitdata`, {
                 method: 'POST', 
                 headers: {
@@ -56,27 +55,24 @@ export default function NewUnitForm () {
             })
             navigate('/')
     
-        } else {
-        }
+        // } else {
+        // }
     }
 
 
     return(
         <Container>
             <br />
-            
-            <Form noValidate validated={validated}>
-                <Button variant="dark" type="submit" onClick={handleSubmit}>
+            <Form validated={validated} onSubmit={handleSubmit}>
+                <Button variant="dark" type="submit" >
                     Submit New Unit
                 </Button>
                 <Row sm={1}>
                     <Form.Group as={Col} controlId="formGridNames">
                         <Form.Label>Unit</Form.Label>
-                        <InputGroup hasValidation>
                             <Form.Control type="text" placeholder="Enter unit name" required onChange={e => setUnit({...unit, name: e.target.value})}/>
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                             <Form.Control.Feedback type="invalid">Please enter the unit's name</Form.Control.Feedback>
-                        </InputGroup>
                     </Form.Group>
                     <Form.Group as={Col}>
                         <Form.Label>Army</Form.Label>

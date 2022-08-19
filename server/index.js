@@ -34,9 +34,9 @@ app.use('/user', require('./controllers/users'))
 app.use('/authentication', require('./controllers/authentication'))
 
 // Serve static front end in production mode
-// if(process.env.NODE_ENV === "production") {
-//     app.use(express.static(path.join(__dirname, 'public', 'build')))
-// }
+if(process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, 'public', 'build')))
+}
 
 // Listen for Connections
 app.listen(process.env.PORT, () => {
