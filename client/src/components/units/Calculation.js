@@ -1,6 +1,6 @@
 import { Container, Table , Form} from "react-bootstrap"
 import { useEffect, useState} from "react"
-import MathCalc from "./mathCalculations"
+import MathCalc from "./MathCalculations"
 
 
 export default function Calculation(props) {
