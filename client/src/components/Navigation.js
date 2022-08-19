@@ -1,5 +1,7 @@
 import { Container, Nav, Navbar } from 'react-bootstrap'
-import { useNavigatem, useContext } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { CurrentUser } from '../contexts/CurrentUser'
 
 export default function Navigation () {
 
@@ -9,8 +11,8 @@ export default function Navigation () {
     
     let loginActions = (
       <>
-        <Nav.Link onClick={() => navigate('/signup')}>Sign Up</Nav.Link>
-        <Nav.Link onClick={() => navigate('/login')}></Nav.Link>
+        <Nav.Link onClick={(e) => navigate('/signup')}>Sign Up</Nav.Link>
+        <Nav.Link onClick={(e) => navigate('/login')}>Login</Nav.Link>
       </>
     )
 
@@ -29,7 +31,7 @@ export default function Navigation () {
           <Nav className="me-auto">
             <Nav.Link onClick={() => navigate('/')}>Home</Nav.Link>
             <Nav.Link onClick={() => navigate('/createUnit')}>Create Unit</Nav.Link>
-            {}
+            {loginActions}
           </Nav>
         </Navbar.Collapse>
       </Container>

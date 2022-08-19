@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 // Add controllers
 app.use('/unitdata', require('./controllers/unitdata'));
 app.use('/weapondata', require('./controllers/weapondata'))
+app.use('/user', require('./controllers/users'))
 
 // Serve static front end in production mode
 // if(process.env.NODE_ENV === "production") {
